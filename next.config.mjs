@@ -2,6 +2,13 @@ import path from 'path'
 import withBundleAnalyzer from '@next/bundle-analyzer'
 import NextPwa from 'next-pwa'
 
+// console.log('process.env.NEXT_SCOPE', process.env.NEXT_SCOPE)
+// console.log('process.env.NEXT_CACHE_START_URL', process.env.NEXT_CACHE_START_URL)
+// console.log('process.env.NEXT_DYNAMIC_START_URL', process.env.NEXT_DYNAMIC_START_URL)
+// console.log('process.env.NEXT_SUBDOMAIN_PREFIX', process.env.NEXT_SUBDOMAIN_PREFIX)
+// console.log('process.env.NEXT_BASE_PATH', process.env.NEXT_BASE_PATH)
+// console.log('process.env.NEXT_ASSET_PREFIX', process.env.NEXT_ASSET_PREFIX)
+
 const withPWA = NextPwa({
   disable: process.env.NODE_ENV === 'development',
   dest: 'public',
@@ -9,13 +16,22 @@ const withPWA = NextPwa({
   /* Do not precache anything */
   publicExcludes: ['**/*'],
   buildExcludes: [/./],
+  scope: process.env.NEXT_SCOPE,
+  cacheStartUrl: process.env.NEXT_CACHE_START_URL
+    ? process.env.NEXT_CACHE_START_URL.toLowerCase() === 'true'
+    : undefined,
+  dynamicStartUrl: process.env.NEXT_DYNAMIC_START_URL
+    ? process.env.NEXT_DYNAMIC_START_URL.toLowerCase() === 'true'
+    : undefined,
+  subdomainPrefix: process.env.NEXT_SUBDOMAIN_PREFIX,
 })
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export', // static site export
 
-  basePath: process.env.BASE_PATH ?? '/',
+  basePath: process.env.NEXT_BASE_PATH,
+  assetPrefix: process.env.NEXT_ASSET_PREFIX,
 
   images: {
     unoptimized: true,
