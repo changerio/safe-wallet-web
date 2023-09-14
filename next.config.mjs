@@ -15,6 +15,8 @@ const withPWA = NextPwa({
 const nextConfig = {
   output: 'export', // static site export
 
+  basePath: process.env.BASE_PATH ?? '/',
+
   images: {
     unoptimized: true,
   },
